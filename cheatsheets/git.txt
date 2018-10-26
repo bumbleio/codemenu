@@ -11,4 +11,6 @@ git commit -m "comment"	# commits teh stage chnages to the git database
 
 remote git commands GITHUB
 
-
+git remote add <name> <url>	connests to a remote repository
+git remote -v 		# shoes remote configurations
+git push <remote-name> <branch-name> # uploads teh local state of <branch-name> to remote repo(remotename>
