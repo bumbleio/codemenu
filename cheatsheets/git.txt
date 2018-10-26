@@ -1,0 +1,14 @@
+git cheat sheet
+
+local git commands
+
+
+git init 		# sets up a new local git repo
+git status   		# shows cureent status of your git direstory
+git add .    		# adds changes files to stageing area ready for a commit
+git commit -m "comment"	# commits teh stage chnages to the git database
+
+
+remote git commands GITHUB
+
+
