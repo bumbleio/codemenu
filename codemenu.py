@@ -20,10 +20,20 @@ else:
 
 
 def get_input():
-    return int(input('PLease select menu item:'))
+    # return int(input('PLease select menu item:'))
+    return input('PLease select menu item:')
 
 def list_settings():
     pass
+
+def clear_screen():
+    os.system('clear')
+
+def pause():
+    print('')
+    print('')
+    programPause = input("Press the <ENTER> key to continue...")
+
 
 def list_projects(directory):
     project_list = os.listdir(path=directory)
@@ -36,34 +46,51 @@ def list_projects(directory):
         count += 1
     # Need to create dictionary number : directory name
     print(projectdict)
-    project_number = int(input('Please select project by number'))
+    project_number = int(input('Please select project by number: '))
+    clear_screen()
     project_directory_file = (projectdict.get(project_number))
     
     # this will wokr only for windows right now
     file_read = directory + '\\' + project_directory_file + '\\' + project_directory_file + '.py'
     open_file = open(file_read, 'r')
     print(open_file.read())
+    pause()
+
+
 
 def show_code(dictionary):
     pass
 
 
+waiting_for_input = True
 
-print('-------' * 3 )
-print('1: Settings')
-print('2: Show all Projects')
-print('3: Hacker Rank')
-print('4: Search projects by tag')
-print('5: Projects raspberrypi.org ') 
-print('6: Docker Files')
-print('Cheat Sheets')
-user_selection = (get_input())
-if user_selection == 1:
-    list_settings()
-elif user_selection == 2:
-    list_projects(project_directory)
-elif user_selection == 3:
-    list_projects(hackerrank_directory)
+while waiting_for_input:
+    clear_screen()
+    print('Code Finder Tool')
+    print('-------' * 3 )
+    print('1: Settings')
+    print('2: Show all Projects')
+    print('3: Hacker Rank')
+    print('4: Search projects by tag')
+    print('5: Projects raspberrypi.org ') 
+    print('6: Docker Files')
+    print('7: Cheat Sheets')
+    print('Q: To exit')
+    user_selection = (get_input())
+    if user_selection == '1':
+        clear_screen()
+        list_settings()
+    elif user_selection == '2':
+        clear_screen()
+        list_projects(project_directory)
+    elif user_selection == '3':
+        clear_screen()
+        list_projects(hackerrank_directory)
+    elif user_selection == 'Q':
+        waiting_for_input = False
+
+else:
+    print('User left!')
     
 
 
