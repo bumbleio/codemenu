@@ -1,4 +1,6 @@
 mysql client basic administrations
+good cheat sheet http://www.mysqltutorial.org/mysql-cheat-sheet.aspx
+
 
 mysql -u [username] -p;         # authenticate to mysql
 exit ;                          # exits client
@@ -9,3 +11,40 @@ Databases
 
 show Databases ;                # shows databases on server
 use database_name ;             # drops you into that DB instance to manage
+create database database_name;  # creates DB
+DROP DATABASE [IF EXISTS] database_name; # deletes DB
+
+Tables
+show tables;                    # shows all tables in database
+describe table_name [column]    # shows tables details or column details for table
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table(
+   key type(size) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   c1 type(size) NOT NULL,
+   c2 type(size) NULL,
+   ...
+);                              # creates a new table
+
+CREATE TABLE IF NOT EXISTS tasks (
+    task_id INT AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    start_date DATE,
+    due_date DATE,
+    status TINYINT NOT NULL,
+    priority TINYINT NOT NULL,
+    description TEXT,
+    PRIMARY KEY (task_id)
+)  ENGINE=INNODB;
+
+alter table table_name add [column];    # adds a colume to a table
+alter table table_name drop [column]    # drops column    
+
+inserting value
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
+Query
+select * from table_name
+
+
+
+
