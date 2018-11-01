@@ -1,0 +1,11 @@
+mysql client basic administrations
+
+mysql -u [username] -p;         # authenticate to mysql
+exit ;                          # exits client
+system clear;                   # clears the console screen
+
+
+Databases
+
+show Databases ;                # shows databases on server
+use database_name ;             # drops you into that DB instance to manage
