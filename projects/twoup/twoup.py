@@ -35,8 +35,6 @@ def check_user_exists():
     # check if user exists or not
     pass
 
-def start_round():
-    pass
 
 
 
