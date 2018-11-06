@@ -7,7 +7,9 @@ roll = True
 user_set = {} 
 bet = 5
 user_bets = {}
-
+house_balance = int(1000)
+#sum_of_bets_heads = 0
+# sum_of_bets_tails = 0
 
 
 def coin_flip():
@@ -40,8 +42,6 @@ def check_user_exists():
     # check if user exists or not
     pass
 
-def roll_validate(dice1 , dice2):
-    pass
 
 def place_you_bets():
     # sets up peoples bet
@@ -61,16 +61,43 @@ def validate_bets(user , heads_or_tails):
         validate_bets(user , heads_or_tails)
         
 def list_active_bets():
-     print('final user bets ' + str(user_bets))
+    sum_of_bets_heads = 0
+    sum_of_bets_tails = 0
+    print('final user bets ' + str(user_bets))
+    for user, bet in user_bets.items():
+        print("the best is: " + bet)
+        if bet == 'T':
+            sum_of_bets_tails += 1
+        elif bet == 'H':
+            sum_of_bets_heads += 1
+    print('tailscount= ' + str(sum_of_bets_tails))
+    print('headscount= ' + str(sum_of_bets_heads))
+    bet_balance = sum_of_bets_tails - sum_of_bets_heads
+    if bet_balance != 0:
+
+    #abs function make a negative number positive and keeps a positive number positive
+        bet_balance_count = abs(int(bet_balance))
+        for i in range(bet_balance_count):
+            print(i)
+            if int(bet_balance) > 0:
+                user_bets.update({'house' + str(i) : 'H'})
+            elif int(bet_balance) < 0:
+                user_bets.update({'house' + str(i) : 'T'})
+
+            # create house accounts with corresponding bets
+        print ("final bets are : " + str(user_bets))
+    else:
+        print('balance even')
 
 
 
-    
 
 # cover bets ie if all users one side they have to play against the house hence house needs enough to cover these situtaions
 #  tally numbers of head bets and number of tails bets. if equal good if not house will have to cover...
 #
 #
+
+
 
 
 while roll:
