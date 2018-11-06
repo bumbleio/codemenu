@@ -4,7 +4,7 @@ import time
 max_users = 4
 count_down_secs = 10
 roll = True
-user_set = {} # this is a set for no duplicate names
+user_set = {} 
 bet = 5
 user_bets = {}
 
@@ -33,6 +33,8 @@ def list_active_users():
 
 def remove_user(existing_user):
     user_set.pop(existing_user)
+    user_bets.pop(existing_user)
+    # remove 
 
 def check_user_exists():
     # check if user exists or not
@@ -44,9 +46,31 @@ def roll_validate(dice1 , dice2):
 def place_you_bets():
     # sets up peoples bet
     for user in user_set:
+        heads_or_tails = input(user + " place your bet T for tails, H for heads: ")
+        # vaidate heads or tails is selected
+        user_bets.update({user : heads_or_tails})
+        validate_bets(user, heads_or_tails)
+    print('final user bets ' + str(user_bets))
 
-        user_bets.update({user : input(user + " place your bet: ")})
-    print(user_bets)
+
+def validate_bets(user , heads_or_tails):
+    bet_value = user_bets[user]
+    if bet_value != 'T' and bet_value != 'H'  :
+        heads_or_tails = input(user + ' incorrect value please repeat: ')
+        user_bets.update({user : heads_or_tails})
+        validate_bets(user , heads_or_tails)
+        
+def list_active_bets():
+     print('final user bets ' + str(user_bets))
+
+
+
+    
+
+# cover bets ie if all users one side they have to play against the house hence house needs enough to cover these situtaions
+#  tally numbers of head bets and number of tails bets. if equal good if not house will have to cover...
+#
+#
 
 
 while roll:
@@ -55,9 +79,12 @@ while roll:
     print("1: Add User")
     print("2: Remove User")
     print("3: List Active Users")
+    print("4: List Active bets")
     print("r: Start Round")
     print("X: Exit Game")
     selection = get_user_selection()
+    print(selection)
+    
     if selection == '1':
         user_name = input("add user name to play: ")
         add_user(user_name)
@@ -66,6 +93,8 @@ while roll:
         remove_user(user_name)
     elif selection == '3':
         list_active_users()
+    elif selection == '4':
+        list_active_bets()
     elif selection == 'r':
         place_you_bets()
         coin1 = coin_flip()
