@@ -36,12 +36,10 @@ def list_active_users():
 def remove_user(existing_user):
     user_set.pop(existing_user)
     user_bets.pop(existing_user)
-    # remove 
-
+    
 def check_user_exists():
     # check if user exists or not
     pass
-
 
 def place_you_bets():
     # sets up peoples bet
@@ -50,7 +48,7 @@ def place_you_bets():
         # vaidate heads or tails is selected
         user_bets.update({user : heads_or_tails})
         validate_bets(user, heads_or_tails)
-    print('final user bets ' + str(user_bets))
+    
 
 
 def validate_bets(user , heads_or_tails):
@@ -60,12 +58,12 @@ def validate_bets(user , heads_or_tails):
         user_bets.update({user : heads_or_tails})
         validate_bets(user , heads_or_tails)
         
-def list_active_bets():
+def reconcile_bets():
     sum_of_bets_heads = 0
     sum_of_bets_tails = 0
     print('final user bets ' + str(user_bets))
     for user, bet in user_bets.items():
-        print("the best is: " + bet)
+        print("the bet is: " + bet)
         if bet == 'T':
             sum_of_bets_tails += 1
         elif bet == 'H':
@@ -78,7 +76,6 @@ def list_active_bets():
     #abs function make a negative number positive and keeps a positive number positive
         bet_balance_count = abs(int(bet_balance))
         for i in range(bet_balance_count):
-            print(i)
             if int(bet_balance) > 0:
                 user_bets.update({'house' + str(i) : 'H'})
             elif int(bet_balance) < 0:
@@ -90,12 +87,25 @@ def list_active_bets():
         print('balance even')
 
 
+def determine_winners_losers(coin1, coin2):
+    print(coin1 + " " + coin2)
+    if coin1 == 'head' and coin2 == 'head':
+        for user, bet in user_bets.items():
+            if bet == 'H':
+                print(user + " has won")
+            else:
+                print(user + " has lost")
+        
+    elif coin1 == 'tail' and coin2 == 'tail':
+        for user, bet in user_bets.items():
+            if bet == 'T':
+                print(user + " has won")
+            else:
+                print(user + " has lost")
+    else:
+        print('no winner re-roll')
+    
 
-
-# cover bets ie if all users one side they have to play against the house hence house needs enough to cover these situtaions
-#  tally numbers of head bets and number of tails bets. if equal good if not house will have to cover...
-#
-#
 
 
 
@@ -107,6 +117,8 @@ while roll:
     print("2: Remove User")
     print("3: List Active Users")
     print("4: List Active bets")
+    # have to merge list active bets and place your bets
+    print("p: PLace your bets")
     print("r: Start Round")
     print("X: Exit Game")
     selection = get_user_selection()
@@ -120,13 +132,13 @@ while roll:
         remove_user(user_name)
     elif selection == '3':
         list_active_users()
-    elif selection == '4':
-        list_active_bets()
-    elif selection == 'r':
+    elif selection == 'p':
         place_you_bets()
+        reconcile_bets()
+    elif selection == 'r':
         coin1 = coin_flip()
         coin2 = coin_flip()
-        print(coin1 + " " + coin2)
+        determine_winners_losers(coin1, coin2)
     elif selection == 'X':
         break
 
