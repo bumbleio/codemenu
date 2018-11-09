@@ -92,34 +92,63 @@ def determine_winners_losers(coin1, coin2):
         for user, bet in user_bets.items():
             if bet == 'H':
                 print(user + " has won")
-                reconcile_user_balace(user , "won")
+                if user.startswith("house"):
+                    reconcile_house_balance(user, "won")
+                else:
+                    reconcile_user_balace(user , "won")
             else:
+
                 print(user + " has lost")
-                reconcile_user_balace(user , "lost")
+                if user.startswith("house"):
+                    reconcile_house_balance(user, "lost")
+                else:
+                    reconcile_user_balace(user , "lost")
 
     elif coin1 == 'tail' and coin2 == 'tail':
         for user, bet in user_bets.items():
             if bet == 'T':
                 print(user + " has won")
-                reconcile_user_balace(user , "won")
+                if user.startswith("house"):
+                    reconcile_house_balance(user, "won")
+                else:
+                    reconcile_user_balace(user , "won")
 
             else:
                 print(user + " has lost")
-                reconcile_user_balace(user , "lost")
+                if user.startswith("house"):
+                    reconcile_house_balance(user, "lost")
+                else:
+                    reconcile_user_balace(user , "lost")
     else:
         print('no winner re-roll')
     
 
 def reconcile_user_balace(user, result):
     if result == 'won':
+        # Normal Users
         new_user_balance = int(user_list[user]) + 5
         print(new_user_balance)
         user_list[user] = new_user_balance
-        
+       
     elif result == 'lost':
         new_user_balance = int(user_list[user]) - 5
         print(new_user_balance)
         user_list[user] = new_user_balance
+
+
+def reconcile_house_balance(user, result):
+
+    if result == 'won':
+        # House
+        house_list[user] = int(house_list[user]) + 5
+        print(list_house_user_balances)
+        
+    elif result == 'lost':
+         # House
+        house_list[user] = int(house_list[user]) - 5
+        print(list_house_user_balances)
+
+
 
 def reset_house_list():
     house_list = {}
