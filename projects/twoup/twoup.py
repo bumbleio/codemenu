@@ -59,7 +59,7 @@ def validate_bets(user , heads_or_tails):
         
 def reconcile_bets():
     # need to reset the house list each time new bets are placed
-    reset_house_list()
+    reset_house_list(user_bets)
     sum_of_bets_heads = 0
     sum_of_bets_tails = 0
     print('User bets: ' + str(user_bets))
@@ -75,10 +75,14 @@ def reconcile_bets():
         for i in range(bet_balance_count):
             if int(bet_balance) > 0:
                 user_bets.update({'house' + str(i) : 'H'})
-                house_list.update({'house' + str(i) : 0})
+                # house_list.update({'house' + str(i) : 0})
+                print('***********adding house user*****************')
+                house_list['house' + str(i)] = 0
             elif int(bet_balance) < 0:
                 user_bets.update({'house' + str(i) : 'T'})
-                house_list.update({'house' + str(i) : 0})
+                # house_list.update({'house' + str(i) : 0})
+                print('***********adding house user*****************')
+                house_list['house' + str(i)] = 0
 
             # create house accounts with corresponding bets
         print ("final bets with house to balance pool : " + str(user_bets))
@@ -141,17 +145,38 @@ def reconcile_house_balance(user, result):
     if result == 'won':
         # House
         house_list[user] = int(house_list[user]) + 5
-        print(list_house_user_balances)
+        print(house_list)
         
     elif result == 'lost':
          # House
         house_list[user] = int(house_list[user]) - 5
-        print(list_house_user_balances)
+        print(house_list)
 
 
 
-def reset_house_list():
-    house_list = {}
+def reset_house_list(user_bets):
+    print('****************** resetting house user list you new round *****************')
+    house_list.clear()
+    #for user in user_bets:
+    #    print(user)
+    #    if user.startswith("house"):
+    #        print('remove user here ' + user)
+    #        del user_bets[user]
+    #print(house_list)
+    #print(user_bets)
+
+    for key in list(user_bets.keys()):
+        print(key)
+        if key.startswith("house"):
+
+            print('remove user here ' + key)
+            del user_bets[key]
+
+    print(house_list)
+    print(user_bets)
+
+
+
 
 def list_active_bets():
     print(user_bets)
