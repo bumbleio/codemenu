@@ -1,5 +1,6 @@
 import random
 import time
+import os
 
 max_users = 4
 count_down_secs = 10
@@ -12,6 +13,9 @@ house_balance = int(1000)
 #sum_of_bets_heads = 0
 # sum_of_bets_tails = 0
 
+def clear_screen():
+    os.system('clear')
+    print(" ")
 
 def coin_flip():
     coinflip = ['head' , 'tail']
@@ -20,17 +24,26 @@ def coin_flip():
 def get_user_selection():
     return input("Please make selection: ")
 
+def validate_user(user):
+    pass
+
 def select_spinner():
     pass
 
 def add_user(new_user, starting_balance=100):
-    print("User count on active table = " + str(len(user_list)))
+    user_exists = check_user_exists(new_user)
+    print(user_exists)   
+    if user_exists == False:
     # should use list or tuble so stop duplicate names
-    if len(user_list) < max_users:
-        user_list.update({new_user: starting_balance})
+        if len(user_list) < max_users:
+            print("*******************adding user**********************")
+            user_list.update({new_user: starting_balance})
+            list_active_users()
+        else:
+            print("Maximun users reached on this table")
     else:
-        print("Maximun users reached on this table")
-    
+        print("user " + new_user + " already exists")
+
 def list_active_users():
     print(user_list)
 
@@ -38,9 +51,12 @@ def remove_user(existing_user):
     user_list.pop(existing_user)
     user_bets.pop(existing_user)
     
-def check_user_exists():
-    # check if user exists or not
-    pass
+def check_user_exists(user):
+    if user in user_list:
+        return True
+    else:
+        return False
+   
 
 def place_you_bets():
     # sets up peoples bet
@@ -157,14 +173,8 @@ def reconcile_house_balance(user, result):
 def reset_house_list(user_bets):
     print('****************** resetting house user list you new round *****************')
     house_list.clear()
-    #for user in user_bets:
-    #    print(user)
-    #    if user.startswith("house"):
-    #        print('remove user here ' + user)
-    #        del user_bets[user]
-    #print(house_list)
-    #print(user_bets)
 
+    # this allows me to remove an element while iterating through the list
     for key in list(user_bets.keys()):
         print(key)
         if key.startswith("house"):
@@ -202,18 +212,24 @@ while roll:
     print(selection)
     
     if selection == '1':
+        clear_screen
         user_name = input("add user name to play: ")
         add_user(user_name)
     elif selection == '2':
+        clear_screen
         user_name = input("remove user from game: ")
         remove_user(user_name)
     elif selection == '3':
+        clear_screen
         list_active_users()
     elif selection == '4':
+        clear_screen
         list_active_bets()
     elif selection == '5':
+        clear_screen
         list_house_user_balances()   
     elif selection == 'p':
+        clear_screen
         place_you_bets()
         reconcile_bets()
     elif selection == 'r':
@@ -223,6 +239,7 @@ while roll:
     elif selection == 'X':
         break
 
-# running the place your bets a 2nd time doesnt resetu the orginal house users if created in previous round because of uneven bet
+# Need to validate user deoenst already exist when added and validate that a user exists when removed
+# add / subtract house winnings or loses to wallet
 
 
