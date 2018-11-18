@@ -10,6 +10,10 @@ house_list = {}
 bet = 5
 user_bets = {}
 house_balance = int(1000)
+# once placed bets user cannot add remove users
+user_change_locked = False
+# after round if user count changed , cannot play round without force replacing bets
+start_round_locked = False
 #sum_of_bets_heads = 0
 # sum_of_bets_tails = 0
 
@@ -48,15 +52,29 @@ def list_active_users():
     print(user_list)
 
 def remove_user(existing_user):
-    user_list.pop(existing_user)
-    user_bets.pop(existing_user)
+    user_exists = check_user_exists(existing_user)
+    user_bet_exists = check_user_bet_exists(existing_user)
+    print(user_exists)   
+    if user_exists == True:
+        user_list.pop(existing_user)
+        if user_bet_exists == True:
+            user_bets.pop(existing_user)
+    else:
+        print("User is not in active player list")
     
 def check_user_exists(user):
     if user in user_list:
         return True
     else:
         return False
-   
+
+def check_user_bet_exists(user):
+    if user in user_bets:
+        return True
+    else:
+        return False
+
+
 
 def place_you_bets():
     # sets up peoples bet
@@ -168,8 +186,6 @@ def reconcile_house_balance(user, result):
         house_list[user] = int(house_list[user]) - 5
         print(house_list)
 
-
-
 def reset_house_list(user_bets):
     print('****************** resetting house user list you new round *****************')
     house_list.clear()
@@ -239,7 +255,7 @@ while roll:
     elif selection == 'X':
         break
 
-# Need to validate user deoenst already exist when added and validate that a user exists when removed
+# Flow control - need to stop users adding / removing / replacing bets until round is complete after placing a bet user game locked flag - check lock variables with comments
 # add / subtract house winnings or loses to wallet
 
 
