@@ -13,7 +13,7 @@ house_balance = int(1000)
 # once placed bets user cannot add remove users
 user_change_locked = False
 # after round if user count changed , cannot play round without force replacing bets
-start_round_locked = False
+start_round_locked = True
 #sum_of_bets_heads = 0
 # sum_of_bets_tails = 0
 
@@ -122,11 +122,13 @@ def reconcile_bets():
         print ("final bets with house to balance pool : " + str(user_bets))
     else:
         print('balance even')
+    user_lock('lock')
 
 
 def determine_winners_losers(coin1, coin2):
     print(coin1 + " " + coin2)
     if coin1 == 'head' and coin2 == 'head':
+        user_lock("unlock")
         for user, bet in user_bets.items():
             if bet == 'H':
                 print(user + " has won")
@@ -143,6 +145,7 @@ def determine_winners_losers(coin1, coin2):
                     reconcile_user_balace(user , "lost")
 
     elif coin1 == 'tail' and coin2 == 'tail':
+        user_lock("unlock")
         for user, bet in user_bets.items():
             if bet == 'T':
                 print(user + " has won")
@@ -202,14 +205,34 @@ def reset_house_list(user_bets):
     print(user_bets)
 
 
-
-
 def list_active_bets():
     print(user_bets)
 
 def list_house_user_balances():
     print(house_list)
 
+
+
+
+def user_lock(control):
+    global user_change_locked
+    if control == "lock":
+        print("Player change control is locked")
+        user_change_locked = True
+        print(user_change_locked)
+    elif control == "unlock":
+        print("Player change options unlocked")
+        user_change_locked = False
+        print(user_change_locked)
+
+def play_round_lock(control):
+    global start_round_locked
+    if control == "lock":
+        print("Player change options locked")
+        start_round_locked = True
+    elif control == "unlock":
+        print("Player change options unlocked")
+        start_round_locked = False
 
 
 while roll:
@@ -228,9 +251,13 @@ while roll:
     print(selection)
     
     if selection == '1':
-        clear_screen
-        user_name = input("add user name to play: ")
-        add_user(user_name)
+        clear_screen()
+        print(user_change_locked)
+        if user_change_locked == False:
+            user_name = input("add user name to play: ")
+            add_user(user_name)
+        else: 
+            print("User cannot join at this time")
     elif selection == '2':
         clear_screen
         user_name = input("remove user from game: ")
@@ -257,5 +284,5 @@ while roll:
 
 # Flow control - need to stop users adding / removing / replacing bets until round is complete after placing a bet user game locked flag - check lock variables with comments
 # add / subtract house winnings or loses to wallet
-
+# # user lock and unlock after round is won complete ...
 
