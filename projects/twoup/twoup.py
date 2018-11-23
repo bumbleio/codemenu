@@ -123,6 +123,7 @@ def reconcile_bets():
     else:
         print('balance even')
     user_lock('lock')
+    play_round_lock('unlock')
 
 
 def determine_winners_losers(coin1, coin2):
@@ -256,12 +257,18 @@ while roll:
         if user_change_locked == False:
             user_name = input("add user name to play: ")
             add_user(user_name)
+            play_round_lock("lock")
         else: 
             print("User cannot join at this time")
     elif selection == '2':
         clear_screen
-        user_name = input("remove user from game: ")
-        remove_user(user_name)
+        if user_change_locked == False:
+            user_name = input("remove user from game: ")
+            remove_user(user_name)
+            play_round_lock("lock")
+        else:
+            print("User cannot be removed at this time")
+        
     elif selection == '3':
         clear_screen
         list_active_users()
@@ -276,13 +283,17 @@ while roll:
         place_you_bets()
         reconcile_bets()
     elif selection == 'r':
-        coin1 = coin_flip()
-        coin2 = coin_flip()
-        determine_winners_losers(coin1, coin2)
+        if start_round_locked == False:
+            coin1 = coin_flip()
+            coin2 = coin_flip()
+            determine_winners_losers(coin1, coin2)
+        else:
+            print("start of round is locked")
     elif selection == 'X':
         break
 
 # Flow control - need to stop users adding / removing / replacing bets until round is complete after placing a bet user game locked flag - check lock variables with comments
 # add / subtract house winnings or loses to wallet
 # # user lock and unlock after round is won complete ...
+# # if users on table change either add of remove all users must replace bets replace your bet
 
