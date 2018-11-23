@@ -135,6 +135,7 @@ def determine_winners_losers(coin1, coin2):
                 print(user + " has won")
                 if user.startswith("house"):
                     reconcile_house_balance(user, "won")
+
                 else:
                     reconcile_user_balace(user , "won")
             else:
@@ -179,15 +180,17 @@ def reconcile_user_balace(user, result):
 
 
 def reconcile_house_balance(user, result):
-
+    global house_balance
     if result == 'won':
         # House
         house_list[user] = int(house_list[user]) + 5
+        house_balance = house_balance + 5
         print(house_list)
         
     elif result == 'lost':
          # House
         house_list[user] = int(house_list[user]) - 5
+        house_balance = house_balance - 5
         print(house_list)
 
 def reset_house_list(user_bets):
@@ -244,8 +247,9 @@ while roll:
     print("3: List Active Users")
     print("4: List Active bets")
     print("5: List House User bets")
+    print("h: List House bankroll")
     # have to merge list active bets and place your bets
-    print("p: PLace your bets")
+    print("p: Place your bets")
     print("r: Start Round")
     print("X: Exit Game")
     selection = get_user_selection()
@@ -261,25 +265,27 @@ while roll:
         else: 
             print("User cannot join at this time")
     elif selection == '2':
-        clear_screen
+        clear_screen()
         if user_change_locked == False:
             user_name = input("remove user from game: ")
             remove_user(user_name)
             play_round_lock("lock")
         else:
-            print("User cannot be removed at this time")
-        
+            print("User cannot be removed at this time")    
     elif selection == '3':
-        clear_screen
+        clear_screen()
         list_active_users()
     elif selection == '4':
-        clear_screen
+        clear_screen()
         list_active_bets()
     elif selection == '5':
-        clear_screen
-        list_house_user_balances()   
+        clear_screen()
+        list_house_user_balances() 
+    elif selection == 'h':
+        clear_screen()
+        print("House Bankroll: " + str(house_balance))
     elif selection == 'p':
-        clear_screen
+        clear_screen()
         place_you_bets()
         reconcile_bets()
     elif selection == 'r':
@@ -292,8 +298,7 @@ while roll:
     elif selection == 'X':
         break
 
-# Flow control - need to stop users adding / removing / replacing bets until round is complete after placing a bet user game locked flag - check lock variables with comments
+
 # add / subtract house winnings or loses to wallet
-# # user lock and unlock after round is won complete ...
-# # if users on table change either add of remove all users must replace bets replace your bet
+
 
